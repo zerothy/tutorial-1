@@ -100,4 +100,9 @@ public class ProductController {
         redirectAttributes.addFlashAttribute("errorMessage", "Invalid HTTP method for deleting product.");
         return "redirect:/product/list";
     }
+
+    @GetMapping("/error")
+    public String errorPage(Model model) {
+        return "error";
+    }
 }
