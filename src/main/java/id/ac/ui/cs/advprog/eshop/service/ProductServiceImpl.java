@@ -17,8 +17,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product create(Product product) {
-        productRepository.create(product);
-        return product;
+        if (product.getProductName() == null || product.getProductName().isEmpty()) {
+            throw new IllegalArgumentException("Product name cannot be empty.");
+        }
+        if (product.getProductQuantity() < 0) {
+            throw new IllegalArgumentException("Product quantity cannot be negative.");
+        }
+        return productRepository.create(product);
     }
 
     @Override
@@ -31,16 +36,36 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product get(String id) {
-        return productRepository.get(id);
+        Product product = productRepository.get(id);
+        if (product == null) {
+            throw new IllegalArgumentException("Product not found with ID: " + id);
+        }
+        return product;
     }
 
     @Override
     public void update(Product product) {
+        if (product.getProductId() == null || product.getProductId().isEmpty()) {
+            throw new IllegalArgumentException("Product ID cannot be empty.");
+        }
+        if (product.getProductName() == null || product.getProductName().isEmpty()) {
+            throw new IllegalArgumentException("Product name cannot be empty.");
+        }
+        if (product.getProductQuantity() < 0) {
+            throw new IllegalArgumentException("Product quantity cannot be negative.");
+        }
+        Product existingProduct = productRepository.get(product.getProductId());
+        if (existingProduct == null) {
+            throw new IllegalArgumentException("Product not found with ID: " + product.getProductId());
+        }
         productRepository.update(product);
     }
 
     @Override
     public boolean delete(String id) {
+        if (id == null || id.isEmpty()) {
+            throw new IllegalArgumentException("Product ID cannot be empty");
+        }
         return productRepository.delete(id);
     }
 }
