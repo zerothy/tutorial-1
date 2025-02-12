@@ -28,8 +28,10 @@ public class ProductRepository {
             if (p.getProductId().equals(product.getProductId())) {
                 p.setProductName(product.getProductName());
                 p.setProductQuantity(product.getProductQuantity());
+                return;
             }
         }
+        throw new IllegalArgumentException("Product not found with ID: " + product.getProductId());
     }
 
     public Product get(String productId) {
@@ -48,6 +50,6 @@ public class ProductRepository {
                 return true;
             }
         }
-        return false;
+        throw new IllegalArgumentException("Product not found with ID: " + productId);
     }
 }
