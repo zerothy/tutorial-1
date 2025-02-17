@@ -13,6 +13,15 @@ class ProductTest {
         this.product.setProductName("Sampo Cap Bambang");
         this.product.setProductQuantity(100);
     }
+
+    @Test
+    void testDefaultConstructor() {
+        Product newProduct = new Product(); // Explicitly test the constructor
+        assertNull(newProduct.getProductId());
+        assertNull(newProduct.getProductName());
+        assertEquals(0, newProduct.getProductQuantity());
+    }
+
     @Test
     void testGetProductId() {
         assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", this.product.getProductId());
