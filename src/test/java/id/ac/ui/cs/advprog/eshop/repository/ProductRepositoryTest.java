@@ -95,9 +95,7 @@ public class ProductRepositoryTest {
         updatedProduct.setProductName("Sampo Cap Bambang Baru");
         updatedProduct.setProductQuantity(200);
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            productRepository.update(updatedProduct);
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> productRepository.update(updatedProduct));
         assertEquals("Product not found with ID: non-existent-id", exception.getMessage());
     }
 
@@ -121,9 +119,42 @@ public class ProductRepositoryTest {
 
     @Test
     void testDeleteNonExistentProduct() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            productRepository.delete("non-existent-id");
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> productRepository.delete("non-existent-id"));
         assertEquals("Product not found with ID: non-existent-id", exception.getMessage());
+    }
+
+    @Test
+    void testUpdateProductInNonEmptyRepository() {
+        Product product1 = new Product();
+        productRepository.create(product1);
+        Product product2 = new Product();
+        productRepository.create(product2);
+
+        Product nonExistentProduct = new Product();
+        nonExistentProduct.setProductId("non-existent-id");
+        nonExistentProduct.setProductName("New Name");
+        nonExistentProduct.setProductQuantity(999);
+
+        assertThrows(IllegalArgumentException.class, () -> productRepository.update(nonExistentProduct));
+    }
+
+    @Test
+    void testDeleteProductInNonEmptyRepository() {
+        Product product1 = new Product();
+        productRepository.create(product1);
+        Product product2 = new Product();
+        productRepository.create(product2);
+
+        assertThrows(IllegalArgumentException.class, () -> productRepository.delete("non-existent-id"));
+    }
+
+    @Test
+    void testGetProductInNonEmptyRepository() {
+        Product product1 = new Product();
+        productRepository.create(product1);
+        Product product2 = new Product();
+        productRepository.create(product2);
+
+        assertNull(productRepository.get("non-existent-id"));
     }
 }
