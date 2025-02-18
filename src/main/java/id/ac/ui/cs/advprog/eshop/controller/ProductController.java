@@ -91,23 +91,6 @@ public class ProductController {
         return "redirect:/product/list";
     }
 
-    @RequestMapping(value = "/edit/{id}", method = {RequestMethod.POST, RequestMethod.PATCH})
-    public String handleIncorrectEditMethod(@PathVariable String id, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("errorMessage", "Invalid HTTP method for editing product.");
-        return "redirect:/product/list";
-    }
-
-    @RequestMapping(value = "/delete/{id}", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.PATCH})
-    public String handleIncorrectDeleteMethod(@PathVariable String id, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("errorMessage", "Invalid HTTP method for deleting product.");
-        return "redirect:/product/list";
-    }
-
-    @RequestMapping(value = "/delete/{id}", method = {RequestMethod.HEAD, RequestMethod.OPTIONS})
-    public ResponseEntity<Void> handleMetadataRequests() {
-        return ResponseEntity.ok().allow(HttpMethod.DELETE).build();
-    }
-
     @GetMapping("/error")
     public String errorPage(Model model) {
         return "error";
