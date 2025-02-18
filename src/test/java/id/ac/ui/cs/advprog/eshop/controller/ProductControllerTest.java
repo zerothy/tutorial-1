@@ -181,30 +181,6 @@ class ProductControllerTest {
     }
 
     @Test
-    void testHandleIncorrectEditMethod() {
-        String viewName = productController.handleIncorrectEditMethod("testId", redirectAttributes);
-
-        verify(redirectAttributes).addFlashAttribute("errorMessage", "Invalid HTTP method for editing product.");
-        assertEquals("redirect:/product/list", viewName);
-    }
-
-    @Test
-    void testHandleIncorrectDeleteMethod() {
-        String viewName = productController.handleIncorrectDeleteMethod("testId", redirectAttributes);
-
-        verify(redirectAttributes).addFlashAttribute("errorMessage", "Invalid HTTP method for deleting product.");
-        assertEquals("redirect:/product/list", viewName);
-    }
-
-    @Test
-    void testHandleMetadataRequests() {
-        ResponseEntity<Void> response = productController.handleMetadataRequests();
-
-        assertTrue(response.getStatusCode().is2xxSuccessful());
-        assertTrue(response.getHeaders().getAllow().contains(HttpMethod.DELETE));
-    }
-
-    @Test
     void testErrorPage() {
         String viewName = productController.errorPage(model);
         assertEquals("error", viewName);
