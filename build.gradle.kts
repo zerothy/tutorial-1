@@ -3,6 +3,7 @@ plugins {
     jacoco
     id("org.springframework.boot") version "3.4.2"
     id("io.spring.dependency-management") version "1.1.7"
+    id("org.sonarqube") version "6.0.1.5171"
 }
 
 group = "id.ac.ui.cs.advprog"
@@ -44,6 +45,15 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
+
+sonar {
+    properties {
+        property("sonar.projectKey", "zerothy_tutorial-1")
+        property("sonar.organization", "zerothy")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
+}
+
 
 tasks.register<Test>("unitTest") {
     description = "Runs unit tests."
