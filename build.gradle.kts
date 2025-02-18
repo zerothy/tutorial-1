@@ -30,6 +30,14 @@ repositories {
     mavenCentral()
 }
 
+sonar {
+    properties {
+        property("sonar.projectKey", "zerothy_tutorial-1")
+        property("sonar.organization", "zerothy")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
+}
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -45,15 +53,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
-
-sonar {
-    properties {
-        property("sonar.projectKey", "zerothy_tutorial-1")
-        property("sonar.organization", "zerothy")
-        property("sonar.host.url", "https://sonarcloud.io")
-    }
-}
-
 
 tasks.register<Test>("unitTest") {
     description = "Runs unit tests."
