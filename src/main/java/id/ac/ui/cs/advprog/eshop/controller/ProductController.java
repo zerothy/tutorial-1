@@ -15,6 +15,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/product")
 public class ProductController {
+    final String success = "successMessage";
+    final String error = "errorMessage";
 
     @Autowired
     private ProductService service;
@@ -30,9 +32,9 @@ public class ProductController {
     public String createProductPost(@ModelAttribute Product product, RedirectAttributes redirectAttributes) {
         try {
             service.create(product);
-            redirectAttributes.addFlashAttribute("successMessage", "Product created successfully!");
+            redirectAttributes.addFlashAttribute(success, "Product created successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error creating product: " + e.getMessage());
+            redirectAttributes.addFlashAttribute(error, "Error creating product: " + e.getMessage());
         }
         return "redirect:/product/list";
     }
@@ -43,7 +45,7 @@ public class ProductController {
             List<Product> allProducts = service.findAll();
             model.addAttribute("products", allProducts);
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "Error retrieving product list: " + e.getMessage());
+            model.addAttribute(error, "Error retrieving product list: " + e.getMessage());
         }
         return "productList";
     }
@@ -53,12 +55,12 @@ public class ProductController {
         try {
             Product product = service.get(id);
             if (product == null) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Product not found.");
+                redirectAttributes.addFlashAttribute(error, "Product not found.");
                 return "redirect:/product/list";
             }
             model.addAttribute("product", product);
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error retrieving product: " + e.getMessage());
+            redirectAttributes.addFlashAttribute(error, "Error retrieving product: " + e.getMessage());
             return "redirect:/product/list";
         }
         return "editProduct";
@@ -69,9 +71,9 @@ public class ProductController {
         try {
             product.setProductId(id);
             service.update(product);
-            redirectAttributes.addFlashAttribute("successMessage", "Product updated successfully!");
+            redirectAttributes.addFlashAttribute(success, "Product updated successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error updating product: " + e.getMessage());
+            redirectAttributes.addFlashAttribute(error, "Error updating product: " + e.getMessage());
         }
         return "redirect:/product/list";
     }
@@ -81,12 +83,12 @@ public class ProductController {
         try {
             boolean isDeleted = service.delete(id);
             if (!isDeleted) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Product not found.");
+                redirectAttributes.addFlashAttribute(error, "Product not found.");
             } else {
-                redirectAttributes.addFlashAttribute("successMessage", "Product deleted successfully!");
+                redirectAttributes.addFlashAttribute(success, "Product deleted successfully!");
             }
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error deleting product: " + e.getMessage());
+            redirectAttributes.addFlashAttribute(error, "Error deleting product: " + e.getMessage());
         }
         return "redirect:/product/list";
     }
