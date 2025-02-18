@@ -8,6 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -17,6 +19,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -191,6 +194,14 @@ class ProductControllerTest {
 
         verify(redirectAttributes).addFlashAttribute("errorMessage", "Invalid HTTP method for deleting product.");
         assertEquals("redirect:/product/list", viewName);
+    }
+
+    @Test
+    void testHandleMetadataRequests() {
+        ResponseEntity<Void> response = productController.handleMetadataRequests();
+
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertTrue(response.getHeaders().getAllow().contains(HttpMethod.DELETE));
     }
 
     @Test
