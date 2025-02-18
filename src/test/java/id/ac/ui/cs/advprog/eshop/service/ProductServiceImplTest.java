@@ -50,7 +50,7 @@ class ProductServiceImplTest {
         product.setProductName(null);
 
         assertThrows(IllegalArgumentException.class, () -> productService.create(product));
-        verify(productRepository, times(1)).create(product);
+        verify(productRepository, never()).create(any());
     }
 
     @Test
