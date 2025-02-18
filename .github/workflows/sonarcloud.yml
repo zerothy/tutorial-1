@@ -34,6 +34,10 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
       - name: Set gradlew as executable
         run: chmod +x ./gradlew
+      - name: Verify reports existence
+        run: |
+          ls -la build/reports/jacoco/test/
+          ls -la build/test-results/test/
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

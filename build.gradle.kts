@@ -35,6 +35,11 @@ sonar {
         property("sonar.projectKey", "zerothy_tutorial-1")
         property("sonar.organization", "zerothy")
         property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.java.binaries", "build/classes")
+        property("sonar.java.source", "21")
+        property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
+        property("sonar.junit.reportPaths", "build/test-results/test")
     }
 }
 
