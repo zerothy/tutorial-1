@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @WebMvcTest(TestController.class)
 @ContextConfiguration(classes = {GlobalExceptionHandler.class, TestController.class})
 public class GlobalExceptionHandlerTest {
+    final String error = "errorMessage";
 
     @Autowired
     private MockMvc mockMvc;
@@ -35,7 +36,7 @@ public class GlobalExceptionHandlerTest {
         mockMvc.perform(post("/test-get"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/product/list"))
-                .andExpect(flash().attribute("errorMessage", "Invalid HTTP method for this endpoint."));
+                .andExpect(flash().attribute(error, "Invalid HTTP method for this endpoint."));
 
         // Direct method call for complete coverage
         HttpRequestMethodNotSupportedException exception =
@@ -70,7 +71,7 @@ public class GlobalExceptionHandlerTest {
         mockMvc.perform(get("/throw-exception"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/error"))
-                .andExpect(flash().attribute("errorMessage", "An unexpected error occurred: Test exception"));
+                .andExpect(flash().attribute(error, "An unexpected error occurred: Test exception"));
 
         // Direct method call for complete coverage
         Exception exception = new RuntimeException("Test generic exception");
