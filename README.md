@@ -50,3 +50,49 @@ Lagipun, dalam hal mengecek banyak items di list itu tidak perlu dibuat pada fil
 ### Solusi
 1. Saya menyarankan pembuatan base file untuk setup, agar tidak perlu mengulang setiap kali ingin membuat functional test. Hal ini dapat mengurangi kesulitan kita saat ingin mengubah base setup tersebut, dan akan sangat berguna dalam long run.
 2. Menyatukan pengecekan total product pada list ke dalam `CreateProductFunctionalTest.java`, karena hal tersebut dapat termasuk kesana, bersama dengan edit dan delete, sehingga tidak perlu membuat file baru.
+
+## Module 2
+## Reflection 1.1
+1. Ambiguous Mapping (Masalah Mapping yang Ambigu)
+
+Terdapat dua metode di ProductController yang memiliki mapping yang sama, yaitu:
+editProductPage dan handleIncorrectEditMethod keduanya dipetakan ke GET /product/edit/{id}.
+Hal ini menyebabkan Spring bingung menentukan metode mana yang harus dipanggil, sehingga mengakibatkan error BeanCreationException.
+
+
+Strategi saya adalah dengan menghapus metode handleIncorrectEditMethod karena redundan (tidak diperlukan) dan sudah ditangani oleh editProductPage.
+Memastikan setiap endpoint memiliki mapping yang unik untuk menghindari konflik.
+
+2. Redundant Code (Kode yang Berulang dan Tidak Perlu)
+
+Metode seperti handleIncorrectEditMethod dan handleIncorrectDeleteMethod tidak diperlukan karena fungsionalitasnya sudah tercakup dalam metode utama seperti editProductPage dan deleteProductPost.
+
+Strategi saya adalah menghapus kode yang redundan untuk meningkatkan keterbacaan dan memudahkan pemeliharaan. Memastikan setiap metode memiliki tanggung jawab yang jelas dan tidak tumpang tindih.
+
+3. Error Handling yang Tidak Konsisten
+
+Beberapa metode menggunakan RedirectAttributes untuk menangani pesan error, sementara yang lain langsung menambahkan pesan error ke Model. Hal ini dapat menyebabkan inkonsistensi dalam penanganan error dan membuat kode sulit dipelihara.
+
+Strategi saya adalah dengan  menstandarisasi penanganan error dengan selalu menggunakan RedirectAttributes untuk operasi yang melibatkan pengalihan (redirect). Memastikan pesan error selalu disertakan dalam RedirectAttributes untuk konsistensi.
+
+4. Penamaan File yang Salah
+
+Ketika Controller mengembalikan nama template seperti createProduct, productList, dan editProduct, saya mendapatkan error dimana file tidak ditemukan. Hal ini menyebabkan terjadinya error saat aplikasi mencoba me-render tampilan.
+
+Strategi saya adalah hanya dengan mengganti nama file HTML menjadi sesuai dengan convention atau sama dengan
+
+5. Maintainability Issues (Masalah Pemeliharaan)
+
+Kode memiliki beberapa masalah pemeliharaan, seperti:
+- Metode yang terlalu panjang dan kompleks.
+- Penanganan error yang tidak konsisten.
+- Kode yang redundan.
+
+Strategi saya adalah dengan memecah metode yang terlalu panjang menjadi metode yang lebih kecil dan fokus pada satu tanggung jawab. Menstandarisasi penanganan error dan penggunaan RedirectAttributes. Menghapus kode yang redundan untuk meningkatkan keterbacaan dan kemudahan pemeliharaan.
+
+## Reflection 1.2
+Saya telah menambahkan workflow CI/CD ke dalam repositori GitHub, dan menurut saya, implementasi ini sudah sesuai dengan konsep Continuous Integration dan Continuous Deployment.
+
+Berdasarkan definisi CI/CD, Continuous Integration merupakan proses integrasi dan verifikasi kode secara otomatis dan berkelanjutan dengan bantuan build scriptx. Dalam hal ini, saya telah menggunakan file ci.yml, sonarcloud.yml, dan scorecard.yml sebagai build script, sementara Gradle, SonarCloud, dan Scorecard berperan sebagai tools untuk memastikan bahwa kode yang saya kembangkan tetap dalam kondisi baik dan bebas dari masalah.
+
+Selain itu, saya juga telah menerapkan Continuous Deployment dengan memanfaatkan layanan PaaS Koyeb yang menggunakan pendekatan pull-based. Koyeb secara otomatis menarik perubahan terbaru dari repositori dan melakukan redeploy, sehingga aplikasi web dapat terus diperbarui secara otomatis.
