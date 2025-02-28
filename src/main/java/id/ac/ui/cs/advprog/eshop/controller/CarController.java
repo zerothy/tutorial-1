@@ -32,6 +32,7 @@ public class CarController {
     public String carListPage(Model model) {
         List<Car> allCars = carService.findAll();
         model.addAttribute("cars", allCars);
+        System.out.println("tes");
         return "carList";
     }
 
